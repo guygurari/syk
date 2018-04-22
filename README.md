@@ -1,4 +1,4 @@
-# The SYK Spectrum
+# Computing the SYK Spectrum
 
 The Sachdev-Ye-Kitaev (SYK) model is a quantum-mechanical model of disordered fermions with applications in both condensed matter and high-energy physics. This code computes the spectrum of the SYK Hamiltonian with 4-fermion interactions.
 
