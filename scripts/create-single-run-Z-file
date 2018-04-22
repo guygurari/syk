@@ -1,0 +1,7 @@
+#!/bin/sh
+
+t_start=100
+t_end=5000
+t_step=2
+
+time ~/k/partition-function-single-sample --betas 0 --t-start $t_start --t-end $t_end --t-step $t_step --output-file maj-N32-run1-Z.tsv --spectrum-file maj-N32-run1-spectrum.tsv

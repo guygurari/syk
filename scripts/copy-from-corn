@@ -1,0 +1,4 @@
+#!/bin/bash
+
+scp -r corn:kitaev/data data
+touch ~/kitaev/corn-copy-done

@@ -1,0 +1,2 @@
+#!/bin/bash
+srun -J test --export=ALL --mem-per-cpu=12288M --time=1266 --nodes=1 -p hns_gpu --gres gpu:1 ./syk-gpu-lanczos --run-name test --N 42 --num-steps 1 --checkpoint-steps 1 --debug

@@ -1,0 +1,2 @@
+#!/bin/bash
+nvprof --analysis-metrics -o syk.nvprof --profile-from-start off ./syk-gpu-benchmark --profile --mock --N 36 --available-memory 0.5

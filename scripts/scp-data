@@ -1,0 +1,81 @@
+#!/bin/bash
+
+server=corn
+#server=sh
+dir=~/kitaev/data/spectra
+dir2pt=~/kitaev/data/2pt
+dir2pt_euclidean=~/kitaev/data/2pt-euclidean
+dir_random=~/kitaev/data/random-matrix
+
+mkdir -p $dir
+mkdir -p $dir2pt
+mkdir -p $dir2pt_euclidean
+mkdir -p $dir_random
+
+copy_random_spectrum () {
+    echo ''
+    echo "=== Copying $1 ==="
+    echo ''
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${1}-spectrum.tsv $dir_random
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress "${server}:kitaev/data/$1/${1}-Z*.tsv" $dir_random
+}
+
+copy_spectrum () {
+    echo ''
+    echo "=== Copying $1 ==="
+    echo ''
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${1}-spectrum.tsv $dir
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${1}-thermo.tsv $dir
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress "${server}:kitaev/data/$1/${1}-Z*.tsv" $dir
+    #rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${1}-run1-spectrum.tsv $dir
+}
+
+copy_dirac_2pt () {
+    echo ''
+    echo "=== Copying $1 ==="
+    echo ''
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${2}-spectrum.tsv $dir2pt
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${2}-thermo.tsv $dir2pt
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${2}-2pt.tsv $dir2pt
+}
+
+copy_dirac_2pt_euclidean () {
+    echo ''
+    echo "=== Copying $1 ==="
+    echo ''
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${2}-spectrum.tsv $dir2pt_euclidean
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${2}-thermo.tsv $dir2pt_euclidean
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress ${server}:kitaev/data/$1/${2}-2pt.tsv $dir2pt_euclidean
+}
+
+#copy_spectrum maj-N18
+#copy_spectrum maj-N20
+#copy_spectrum maj-N22
+#copy_spectrum maj-N24
+#copy_spectrum maj-N26
+#copy_spectrum maj-N28
+#copy_spectrum maj-N30
+#copy_spectrum maj-N32
+
+#copy_random_spectrum rnd-K12870-GUE
+#copy_random_spectrum rnd-K12870-GOE
+#copy_random_spectrum rnd-K924-GUE
+copy_random_spectrum rnd-K4096-GOE
+copy_random_spectrum rnd-K4096-GUE
+
+#copy_spectrum N6
+#copy_spectrum N8
+#copy_spectrum N10
+#copy_spectrum N12
+#copy_spectrum N13
+#copy_spectrum N14
+#copy_spectrum N15
+#copy_spectrum N16
+#copy_spectrum real-N16
+
+#copy_dirac_2pt_euclidean N6-2pt-euclidean N6
+#copy_dirac_2pt_euclidean N12-2pt-euclidean N12
+
+#copy_dirac_2pt N6-2pt N6
+#copy_dirac_2pt N12-2pt N12
+

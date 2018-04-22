@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+N=24
+beta=0
+name=ac-N$N-b$beta
+
+time ./kitaev --run-name $name --majorana --N $N --anti-commutator --t0 0 --t1 50 --dt 0.5 --beta $beta

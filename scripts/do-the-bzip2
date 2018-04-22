@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use KitaevUtils;
+
+foreach my $file (@ARGV) {
+    my $type = `file $file`;
+
+    if ($type =~ /ASCII/) {
+        my $no_bz2_ext = $file;
+        $no_bz2_ext =~ s/\.bz2// || die;
+        print "$file -> $no_bz2_ext\n";
+        rename($file, $no_bz2_ext) || die; 
+        KitaevUtils::execute("bzip2 $no_bz2_ext");
+    }
+}
+

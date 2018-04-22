@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# Lanczos job meant to be run on a GPU node on Sherlock.
+#
+
+cd $SGE_O_WORKDIR
+
+full_run_name=${PARAM_FULL_RUN_NAME}${SLURM_ARRAY_TASK_ID}
+prog=$PARAM_PROG
+prog_params=$PARAM_PROG_PARAMS
+data_dir=$PARAM_DATA_DIR
+
+logfile=$data_dir/$full_run_name.log
+#rm -f $logfile
+
+echo "=== JOB STARTED ===" >> $logfile
+echo '' >> $logfile
+echo '= Environment =' >> $logfile
+env >> $logfile
+
+echo '' >> $logfile
+echo '= Running =' >> $logfile
+
+echo "Executing:" >> $logfile
+echo $prog --run-name $full_run_name $prog_params >> $logfile
+time $prog --run-name $full_run_name $prog_params >> $logfile 2>&1
+
+prog2=$PARAM_PROG2
+prog2_params=$PARAM_PROG2_PARAMS
+
+# Run the second program if it's specified
+if [ ${#prog2} -gt 0 ]; then
+    echo '' >> $logfile
+    echo "Executing second program:" >> $logfile
+    echo $prog2 $prog2_params >> $logfile
+    time $prog2 $prog2_params >> $logfile 2>&1
+fi
+
+echo '' >> $logfile
+echo ===== SIMULATION DONE === >> $logfile
+echo '' >> $logfile
+
+# This solved an output problem on farmshare.
+# Without this, output files sometimes didn't make it to the shared 
+# home directory for some reason.
+# Not needed when writing directly to /farmshare/user_data .
+#sleep 60

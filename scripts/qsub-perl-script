@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use Getopt::Long;
+use FindBin qw($Script);
+use KitaevUtils;
+
+my $data_dir = KitaevUtils::data_dir();
+my $work_dir = KitaevUtils::work_dir();
+
+sub usage {
+    print "Usage: $Script script.pl params... -N job-name [--help] \n\n";
+}
+
+my $help = 0;
+my $job_name;
+
+GetOptions(
+        "help" => \$help,
+        "N=s" => \$job_name,
+        );
+
+if ($help) {
+    usage();
+    exit 0;
+}
+
+my $job_script = shift @ARGV;
+my $args = join(' ', @ARGV);
+
+if (!defined $job_script || !defined $job_name) {
+    usage();
+    exit 1;
+}
+
+my $cmd = "echo 'perl -I${work_dir} ${work_dir}/$job_script $args' | qsub -N $job_name -o $data_dir -e $data_dir";
+KitaevUtils::execute($cmd);
+

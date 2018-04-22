@@ -1,0 +1,8 @@
+#!/bin/sh
+
+./kitaev --majorana --run-name N14 --N 14 --compute-fermion-matrix
+./kitaev --majorana --run-name N16 --N 16 --compute-fermion-matrix
+./kitaev --majorana --run-name N18 --N 18 --compute-fermion-matrix
+./kitaev --majorana --run-name N20 --N 20 --compute-fermion-matrix
+./kitaev --majorana --run-name N22 --N 22 --compute-fermion-matrix
+./kitaev --majorana --run-name N24 --N 24 --compute-fermion-matrix

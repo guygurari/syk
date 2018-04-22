@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#./syk-gpu-lanczos --run-name testsb --N 40 --num-steps 50 --checkpoint-steps 50
+
+nvprof --profile-from-start off -s ./syk-gpu-lanczos --run-name testsb --N 40 --num-steps 1 --checkpoint-steps 1

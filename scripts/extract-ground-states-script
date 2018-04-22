@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Extract all the ground states
+
+for N in 24 26 28 30 32 34 36
+do
+    echo "./extract-ground-states.pl data/gndlanc-N${N}/gndlanc-N${N}-run*.tsv > data/gndlanc-N${N}/gndlanc-N${N}.tsv"
+    ./extract-ground-states.pl data/gndlanc-N${N}/gndlanc-N${N}-run*.tsv > data/gndlanc-N${N}/gndlanc-N${N}.tsv &
+done
+
+echo "Waiting for tasks to finish..."
+wait
+

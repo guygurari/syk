@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# Kitaev job meant to be run on the cluster.
+#
+
+cd $SGE_O_WORKDIR
+
+full_run_name=$PARAM_FULL_RUN_NAME
+prog=$PARAM_PROG
+prog_params=$PARAM_PROG_PARAMS
+
+logfile=data/$full_run_name.log
+rm -f $logfile
+
+echo "=== JOB STARTED ===" > $logfile
+echo '' >> $logfile
+echo '= Environment =' >> $logfile
+env >> $logfile
+
+echo '' >> $logfile
+echo '= Running =' >> $logfile
+
+echo "Executing:" >> $logfile
+echo $prog $prog_params >> $logfile
+time $prog $prog_params >> $logfile
+
+prog2=$PARAM_PROG2
+prog2_params=$PARAM_PROG2_PARAMS
+
+# Run the second program if it's specified
+if [ ${#prog2} -gt 0 ]; then
+    echo '' >> $logfile
+    echo "Executing second program:" >> $logfile
+    echo $prog2 $prog2_params >> $logfile
+    time $prog2 $prog2_params >> $logfile
+fi
+
+echo '' >> $logfile
+echo ===== SIMULATION DONE === >> $logfile
+echo '' >> $logfile
+
+# This solves the output problem.
+# Without this, output files sometimes don't make it to the shared 
+# home directory for some reason.
+# (not needed any longer, now that we write directly to /farmshare/user_data)
+#sleep 60
+

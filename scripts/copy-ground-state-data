@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for N in 24 26 28 30 32 34
+do
+scp sh2:k/data/gndlanc-N${N}/gndlanc-N${N}.tsv data/spectra
+done

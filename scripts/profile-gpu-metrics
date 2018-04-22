@@ -1,0 +1,7 @@
+#!/bin/bash
+
+nvprof --profile-from-start off --metrics flop_count_dp,flop_dp_efficiency,achieved_occupancy $*
+
+# nvprof --profile-from-start off --metrics achieved_occupancy,flop_count_dp,flop_dp_efficiency,gld_throughput,gld_efficiency,gst_throughput,gst_efficiency,dram_read_throughput,dram_write_throughput,dram_utilization ./syk-gpu-benchmark --profile --mock --available-memory 3 --N 40
+
+# nvprof --profile-from-start off --metrics sm_efficiency,achieved_occupancy,warp_execution_efficiency,flop_dp_efficiency,gld_throughput,gld_efficiency,gst_throughput,gst_efficiency,dram_read_throughput,dram_write_throughput,dram_utilization,l1_shared_utilization,l1_cache_global_hit_rate,l1_cache_local_hit_rate ./syk-gpu-benchmark --profile --mock --N 38 --available-memory 3

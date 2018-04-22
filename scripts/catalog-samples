@@ -1,0 +1,63 @@
+#!/usr/bin/env perl
+#
+# Put run files in place.
+#
+
+use FindBin qw($Script);
+use IO::File;
+use Getopt::Long;
+
+use warnings;
+use strict;
+
+sub usage {
+    print "Usage: $Script [--help] [--local-samples] [--dry-run] base-name\n";
+    print "\nIf --local-samples is not specified, only completed cluster jobs will be cataloged.\n\n";
+}
+
+my $help = 0;
+my $local_samples = 0;
+my $dry_run = 0;
+
+GetOptions(
+    'help' => \$help,
+    'local-samples' => \$local_samples,
+    'dry-run' => \$dry_run,
+);
+
+if ($help) {
+    usage();
+    exit 0;
+}
+
+if (scalar(@ARGV) != 1) {
+    usage();
+    exit 1;
+}
+
+my $base_name = $ARGV[0];
+my $dir = $base_name;
+execute("mkdir -p $dir");
+
+if ($local_samples) {
+    execute("mv ${base_name}-run* ${dir}");
+}
+else {
+    foreach my $err_file (glob("$base_name-run*.e*")) {
+        if (-s $err_file > 0) {
+            my $run_name = $err_file;
+            $run_name =~ s/\.e.*//;
+            execute("mv ${run_name}.* ${run_name}-* $dir");
+        }
+    }
+}
+
+sub execute {
+    my $cmd = shift;
+    print "$cmd\n";;
+    if (!$dry_run) {
+        system($cmd);
+        die "Failed running $cmd" if $? >> 8;
+    }
+}
+
